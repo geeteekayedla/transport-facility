@@ -1,27 +1,97 @@
-# TransportFacility
+# Transport Facility
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+A modern Angular application for booking and managing office rides. Employees can add rides, browse available options, and view ride details.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Home Dashboard** - Welcome page with quick access to main features
+- **Add Ride** - Create new rides with vehicle details and route information
+- **Browse Rides** - Search and filter available rides
+- **Ride Details** - View comprehensive information about specific rides
+- **Responsive Design** - Mobile-friendly interface
+- **Form Validation** - Comprehensive client-side validation for ride creation
+- **Vehicle Management** - Support for different vehicle types (Bike, Car)
 
-## Code scaffolding
+## Project Structure
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+src/
+├── app/
+│   ├── features/
+│   │   └── transport/
+│   │       ├── home/
+│   │       ├── browse-rides/
+│   │       ├── add-ride/
+│   │       └── ride-details/
+│   ├── core/
+│   │   └── services/
+│   ├── shared/
+│   ├── app.component.ts
+│   ├── app.routes.ts
+│   └── app.config.ts
+├── styles.css
+└── main.ts
+```
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
+- Node.js (v18+)
+- Angular CLI
 
-## Running unit tests
+### Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+```
 
-## Running end-to-end tests
+### Development Server
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+ng serve
+```
 
-## Further help
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Build
+
+```bash
+ng build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## Routes
+
+- `/` - Home page
+- `/browse` - Browse available rides
+- `/add` - Add a new ride
+- `/details` - View ride details
+
+## Technologies Used
+
+- **Angular 17** - Frontend framework
+- **Reactive Forms** - Form management and validation
+- **TypeScript** - Programming language
+- **Bootstrap** - Styling framework
+- **CSS Custom Properties** - Theme variables
+
+## Key Components
+
+- [AddRideComponent](src/app/features/transport/add-ride/add-ride.component.ts) - Create new rides with full validation
+- [BrowseRidesComponent](src/app/features/transport/browse-rides/browse-rides.component.ts) - Search and filter rides
+- [RideDetailsComponent](src/app/features/transport/ride-details/ride-details.component.ts) - View ride information
+- [HomeComponent](src/app/features/transport/home/home.component.ts) - Landing page
+
+## Services
+
+- `RideService` - Manages ride data and operations
+
+## Notes
+
+- All rides are for the current day only
+- Vehicle numbers must be unique
+- Users cannot have overlapping bookings within ±60 minutes
+- Bikes have a fixed capacity of 1 seat
+- Cars can have 1-7 vacant seats
+
