@@ -1,0 +1,105 @@
+<div class="browse-container py-5">
+  <div class="container">
+    <h2 class="mb-4">Browse and Book Rides</h2>
+
+    <!-- Filter Section -->
+    <div class="filters card shadow-sm mb-4">
+      <div class="card-body">
+        <form [formGroup]="filterForm" class="filter-form">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="employeeId" class="form-label">Your Employee ID <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                id="employeeId" 
+                formControlName="employeeId"
+                class="form-control"
+                placeholder="Enter your Employee ID"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label for="time" class="form-label">Preferred Time <span class="text-danger">*</span></label>
+              <input 
+                type="time" 
+                id="time" 
+                formControlName="time"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-3">
+              <label for="vehicleType" class="form-label">Vehicle Type</label>
+              <select id="vehicleType" formControlName="vehicleType" class="form-select">
+                <option value="">All Types</option>
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+              </select>
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" (click)="searchRides()" class="btn btn-primary w-100">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Alert Message -->
+    <div 
+      *ngIf="message" 
+      [ngClass]="messageType === 'success' ? 'alert alert-success' : 'alert alert-danger'"
+      class="alert alert-dismissible fade show mb-4"
+      role="alert"
+    >
+      {{ message }}
+      <button type="button" class="btn-close" (click)="message = ''" aria-label="Close"></button>
+    </div>
+
+    <!-- Rides Grid -->
+    <div class="rides-grid" *ngIf="showRides">
+      <div *ngIf="rides.length === 0" class="empty-state w-100">
+        <h3>No Rides Available</h3>
+        <p>Try adjusting your search criteria or check back later.</p>
+      </div>
+
+      <div *ngFor="let ride of rides" class="ride-card">
+        <div class="ride-header mb-3">
+          <div>
+            <h5 class="ride-title mb-0">{{ ride.vehicleType }} - {{ ride.vehicleNo }}</h5>
+            <small class="text-muted">{{ ride.pickupPoint }} → {{ ride.destination }}</small>
+          </div>
+          <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-danger'">
+            {{ ride.vacantSeats }} seat(s)
+          </span>
+        </div>
+
+        <div class="ride-details mb-3">
+          <p class="mb-2">
+            <strong>Driver:</strong> {{ getRideCreatorName(ride) }}
+          </p>
+          <p class="mb-2">
+            <strong>Time:</strong> {{ ride.time }}
+          </p>
+          <p class="mb-0">
+            <strong>Status:</strong>
+            <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-secondary'">
+              {{ ride.vacantSeats > 0 ? 'Available' : 'Full' }}
+            </span>
+          </p>
+        </div>
+
+        <button 
+          type="button" 
+          (click)="bookRide(ride.id)"
+          class="btn btn-primary w-100"
+          [disabled]="ride.vacantSeats === 0"
+        >
+          {{ ride.vacantSeats > 0 ? 'Book Ride' : 'No Seats Available' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

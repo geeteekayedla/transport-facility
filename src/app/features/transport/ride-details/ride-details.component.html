@@ -1,0 +1,120 @@
+<div class="details-container py-5">
+  <div class="container">
+    <h2 class="mb-4">My Ride Details</h2>
+
+    <!-- Search Section -->
+    <form [formGroup]="detailsForm" class="search-form mb-4">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-6">
+          <label for="employeeId" class="form-label">Your Employee ID <span class="text-danger">*</span></label>
+          <input 
+            type="text" 
+            id="employeeId" 
+            formControlName="employeeId"
+            class="form-control"
+            placeholder="Enter your Employee ID"
+          />
+        </div>
+
+        <div class="col-md-3">
+          <button type="button" (click)="getDetails()" class="btn btn-primary w-100">
+            View Details
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Alert Message -->
+    <div 
+      *ngIf="message" 
+      [ngClass]="messageType === 'success' ? 'alert alert-success' : 'alert alert-danger'"
+      class="alert alert-dismissible fade show mb-4"
+      role="alert"
+    >
+      {{ message }}
+      <button type="button" class="btn-close" (click)="message = ''" aria-label="Close"></button>
+    </div>
+
+    <!-- Details Section -->
+    <div *ngIf="showDetails">
+      <!-- Created Rides Section -->
+      <div class="mb-5">
+        <h3 class="mb-4">Rides I Created ({{ createdRides.length }})</h3>
+        
+        <div *ngIf="createdRides.length === 0" class="empty-state">
+          <p>You haven't created any rides yet.</p>
+        </div>
+
+        <div class="rides-grid" *ngIf="createdRides.length > 0">
+          <div *ngFor="let ride of createdRides" class="ride-card">
+            <div class="ride-header mb-3">
+              <div>
+                <h5 class="ride-title mb-0">{{ ride.vehicleType }} - {{ ride.vehicleNo }}</h5>
+                <small class="text-muted">{{ ride.pickupPoint }} → {{ ride.destination }}</small>
+              </div>
+              <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-danger'">
+                {{ ride.vacantSeats }} seat(s)
+              </span>
+            </div>
+
+            <div class="ride-details mb-3">
+              <p class="mb-2">
+                <strong>Time:</strong> {{ ride.time }}
+              </p>
+              <p class="mb-2">
+                <strong>Total Seats:</strong> {{ ride.vehicleType === 'Bike' ? 1 : 12 }}
+              </p>
+              <p class="mb-2">
+                <strong>Booked By:</strong> {{ getBookedByNames(ride) }}
+              </p>
+              <p class="mb-0">
+                <strong>Status:</strong>
+                <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-secondary'">
+                  {{ ride.vacantSeats > 0 ? 'Available' : 'Full' }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booked Rides Section -->
+      <div>
+        <h3 class="mb-4">Rides I Booked ({{ bookedRides.length }})</h3>
+        
+        <div *ngIf="bookedRides.length === 0" class="empty-state">
+          <p>You haven't booked any rides yet.</p>
+        </div>
+
+        <div class="rides-grid" *ngIf="bookedRides.length > 0">
+          <div *ngFor="let ride of bookedRides" class="ride-card">
+            <div class="ride-header mb-3">
+              <div>
+                <h5 class="ride-title mb-0">{{ ride.vehicleType }} - {{ ride.vehicleNo }}</h5>
+                <small class="text-muted">{{ ride.pickupPoint }} → {{ ride.destination }}</small>
+              </div>
+              <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-danger'">
+                {{ ride.vacantSeats }} seat(s)
+              </span>
+            </div>
+
+            <div class="ride-details mb-3">
+              <p class="mb-2">
+                <strong>Driver:</strong> {{ getRideCreatorName(ride) }}
+              </p>
+              <p class="mb-2">
+                <strong>Time:</strong> {{ ride.time }}
+              </p>
+              <p class="mb-0">
+                <strong>Status:</strong>
+                <span class="badge" [ngClass]="ride.vacantSeats > 0 ? 'bg-success' : 'bg-secondary'">
+                  {{ ride.vacantSeats > 0 ? 'Available' : 'Full' }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

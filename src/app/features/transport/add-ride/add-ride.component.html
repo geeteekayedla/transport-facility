@@ -1,0 +1,152 @@
+<div class="add-ride-container py-5">
+  <div class="form-container">
+    <h2 class="mb-4">Add a New Ride</h2>
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Employee ID -->
+      <div class="mb-3">
+        <label for="employeeId" class="form-label">Employee ID <span class="text-danger">*</span></label>
+        <input 
+          type="text" 
+          id="employeeId" 
+          formControlName="employeeId"
+          class="form-control"
+          [class.is-invalid]="employeeId?.invalid && submitted"
+          placeholder="Enter your Employee ID"
+        />
+        <div class="invalid-feedback" *ngIf="employeeId?.invalid && submitted">
+          Employee ID is required and must be at least 3 characters
+        </div>
+      </div>
+
+      <!-- Vehicle Type -->
+      <div class="mb-3">
+        <label for="vehicleType" class="form-label">Vehicle Type <span class="text-danger">*</span></label>
+        <select 
+          id="vehicleType" 
+          formControlName="vehicleType"
+          class="form-select"
+          [class.is-invalid]="vehicleType?.invalid && submitted"
+        >
+          <option value="">Select Vehicle Type</option>
+          <option value="Bike">Bike</option>
+          <option value="Car">Car</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="vehicleType?.invalid && submitted">
+          Vehicle Type is required
+        </div>
+      </div>
+
+      <!-- Vehicle Number -->
+      <div class="mb-3">
+        <label for="vehicleNo" class="form-label">Vehicle Number <span class="text-danger">*</span></label>
+        <input 
+          type="text" 
+          id="vehicleNo" 
+          formControlName="vehicleNo"
+          class="form-control"
+          [class.is-invalid]="vehicleNo?.invalid && submitted"
+          placeholder="Enter vehicle number"
+        />
+        <div class="invalid-feedback" *ngIf="vehicleNo?.invalid && submitted">
+          Vehicle Number is required
+        </div>
+      </div>
+
+      <!-- Vacant Seats -->
+      <div class="mb-3" *ngIf="vehicleType?.value === 'Car'">
+        <label for="vacantSeats" class="form-label">Vacant Seats <span class="text-danger">*</span></label>
+        <input 
+          type="number" 
+          id="vacantSeats" 
+          formControlName="vacantSeats"
+          class="form-control"
+          [class.is-invalid]="vacantSeats?.invalid && submitted"
+          min="1"
+          max="7"
+          placeholder="Enter number of vacant seats (1-7)"
+        />
+        <div class="invalid-feedback d-block" *ngIf="vacantSeats?.invalid && submitted">
+          <div *ngIf="vacantSeats?.errors?.['required']">Vacant Seats is required</div>
+          <div *ngIf="vacantSeats?.errors?.['min']">Vacant Seats must be at least 1</div>
+          <div *ngIf="vacantSeats?.errors?.['max']">Vacant Seats cannot exceed 7</div>
+        </div>
+      </div>
+      
+      <!-- Hidden field for Bike (auto-set to 1) -->
+      <input 
+        type="hidden" 
+        formControlName="vacantSeats"
+        *ngIf="vehicleType?.value === 'Bike'"
+        value="1"
+      />
+
+      <!-- Time -->
+      <div class="mb-3">
+        <label for="time" class="form-label">Time <span class="text-danger">*</span></label>
+        <input 
+          type="time" 
+          id="time" 
+          formControlName="time"
+          class="form-control"
+          [class.is-invalid]="(time?.invalid || time?.errors?.['notAfterNow']) && submitted"
+          [attr.min]="currentTime"
+        />
+        <div class="invalid-feedback" *ngIf="time?.invalid && submitted">
+          Time is required
+        </div>
+        <div class="invalid-feedback" *ngIf="time?.errors?.['notAfterNow'] && submitted">
+          Time must be later than the current time
+        </div>
+      </div>
+
+      <!-- Pick-up Point -->
+      <div class="mb-3">
+        <label for="pickupPoint" class="form-label">Pick-up Point <span class="text-danger">*</span></label>
+        <input 
+          type="text" 
+          id="pickupPoint" 
+          formControlName="pickupPoint"
+          class="form-control"
+          [class.is-invalid]="pickupPoint?.invalid && submitted"
+          placeholder="Enter pick-up point"
+        />
+        <div class="invalid-feedback" *ngIf="pickupPoint?.invalid && submitted">
+          Pick-up Point is required
+        </div>
+      </div>
+
+      <!-- Destination -->
+      <div class="mb-3">
+        <label for="destination" class="form-label">Destination <span class="text-danger">*</span></label>
+        <input 
+          type="text" 
+          id="destination" 
+          formControlName="destination"
+          class="form-control"
+          [class.is-invalid]="destination?.invalid && submitted"
+          placeholder="Enter destination"
+        />
+        <div class="invalid-feedback" *ngIf="destination?.invalid && submitted">
+          Destination is required
+        </div>
+      </div>
+
+      <!-- Message Alert -->
+      <div 
+        *ngIf="message" 
+        [ngClass]="messageType === 'success' ? 'alert alert-success' : 'alert alert-danger'"
+        class="alert mb-3"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-flex gap-2 justify-content-start">
+        <button type="submit" class="btn btn-primary px-5">Add Ride</button>
+        <button type="reset" class="btn btn-outline-secondary px-5">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+.action-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  width: 350px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.action-card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  border-color: var(--primary-color);
+}
+
+.action-card .btn {
+  pointer-events: none;
+}
